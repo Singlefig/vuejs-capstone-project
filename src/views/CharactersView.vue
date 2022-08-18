@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="characters">
       <CharacterCard
         v-for="character in characters"
@@ -59,15 +59,14 @@ export default {
       })
     })
   },
-  computed: {
-    getPage() {
-      return parseInt(this.$route.query.page) || 1
-    },
-  },
 }
 </script>
 
 <style scoped>
+.container {
+  padding-bottom: 20px;
+}
+
 .characters {
   padding: 50px 0;
   display: grid;

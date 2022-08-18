@@ -1,30 +1,54 @@
 <template>
   <header>
-    <div class="routes">
-      <router-link to="/">Characters</router-link>
-      <router-link to="/favourites">Favourites</router-link>
+    <div class="top-content">
+      <div class="routes">
+        <router-link to="/">Characters</router-link>
+        <router-link to="/favourites">Favourites</router-link>
+      </div>
+      <div class="favourite-count">
+        <img
+          src="../assets/icons/heart.svg"
+          width="24"
+          height="24"
+          alt="icon for favourite"
+        />
+        <span>1</span>
+      </div>
     </div>
-    <div class="favourite-count">
-      <img
-        src="../assets/icons/heart.svg"
-        width="24"
-        height="24"
-        alt="icon for favourite"
-      />
-      <span>1</span>
+    <div
+      v-if="
+        !(
+          $route.path.includes('favourites') ||
+          $route.path.includes('character')
+        )
+      "
+      class="header-controls"
+    >
+      <Filter />
     </div>
   </header>
 </template>
 
 <script>
+import Filter from '@/components/Filter.vue'
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Header',
+  components: {
+    Filter,
+  },
 }
 </script>
 
 <style scoped>
 header {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.top-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -67,5 +91,11 @@ header {
 
 .favourite-count span {
   padding-top: 2px;
+}
+
+.header-controls {
+  background-color: #e7e1e1;
+  width: 100%;
+  padding: 20px 0;
 }
 </style>
