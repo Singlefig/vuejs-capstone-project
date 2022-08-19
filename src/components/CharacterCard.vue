@@ -1,20 +1,51 @@
 <template>
-  <router-link :to="{ name: 'CharacterDetails' }">
-    <div class="character-card">
+  <div class="character-card">
+    <router-link
+      :to="{ name: 'CharacterDetails', params: { id: character.id } }"
+    >
       <img :src="character.image" />
-      <p class="character-name">{{ character.name }}</p>
-      <p class="character-details">
-        {{ character.species }} - {{ character.status }}
-      </p>
-      <button>Add to Favourites</button>
-    </div>
-  </router-link>
+    </router-link>
+    <p class="character-name">{{ character.name }}</p>
+    <p class="character-details">
+      {{ character.species }} - {{ character.status }}
+    </p>
+    <button v-if="!isFavourite" @click.self="addCharacter">
+      Add to Favourites
+    </button>
+    <button v-else @click.self="removeCharacter">Remove from Favourites</button>
+  </div>
 </template>
 
 <script>
 export default {
   props: ['character'],
   name: 'CharacterCard',
+  data() {
+    return {
+      isFavourite: false,
+    }
+  },
+  created() {
+    this.getIsFavourite()
+  },
+  methods: {
+    addCharacter() {
+      this.$store.dispatch('addCharacter', this.character)
+      this.getIsFavourite()
+    },
+    removeCharacter() {
+      this.$store.dispatch('removeCharacter', this.character)
+      this.getIsFavourite()
+    },
+    getIsFavourite() {
+      this.isFavourite =
+        this.$store.state.favouriteCharacters.length > 0
+          ? this.$store.state.favouriteCharacters.find(
+              (el) => el.id === this.character.id
+            )
+          : false
+    },
+  },
 }
 </script>
 
@@ -28,6 +59,10 @@ export default {
   -webkit-box-shadow: 1px 1px 25px -2px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 1px 1px 25px -2px rgba(0, 0, 0, 0.5);
   box-shadow: 1px 1px 25px -2px rgba(0, 0, 0, 0.5);
+}
+
+.character-card img {
+  width: 400px;
 }
 
 .character-card p {
@@ -48,9 +83,9 @@ export default {
 
 .character-card button {
   margin-top: 20px;
-  width: 180px;
+  width: fit-content;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 10px;
   margin-left: 20px;
   background-color: black;

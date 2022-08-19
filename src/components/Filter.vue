@@ -53,6 +53,7 @@ export default {
   border-radius: 10px;
   font-weight: 600;
   width: 300px;
+  box-sizing: border-box;
 }
 
 .filter {
@@ -73,14 +74,14 @@ export default {
 }
 
 .filter:first-of-type {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 .filter:last-of-type {
   border-right: none;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .active {

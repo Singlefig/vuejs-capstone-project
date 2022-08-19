@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CharactersView from '../views/CharactersView.vue'
+import CharacterDetails from '../views/CharacterDetails.vue'
+import FavouriteCharacters from '../views/FavouriteCharacters.vue'
 
 const routes = [
   {
@@ -9,15 +11,15 @@ const routes = [
     props: (route) => ({ page: parseInt(route.query.page) || 1 }),
   },
   {
-    path: '/characters/',
+    path: '/characters/:id',
     name: 'CharacterDetails',
-    component: CharactersView,
+    component: CharacterDetails,
+    props: true,
   },
   {
     path: '/favourites',
     name: 'favourites',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
+    component: FavouriteCharacters,
   },
 ]
 

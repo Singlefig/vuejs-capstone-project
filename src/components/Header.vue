@@ -12,7 +12,7 @@
           height="24"
           alt="icon for favourite"
         />
-        <span>1</span>
+        <span>{{ $store.getters.getFavouriteCharactersLength }}</span>
       </div>
     </div>
   </header>
@@ -48,7 +48,7 @@ header {
 }
 
 .routes a {
-  color: white;
+  color: #b5b0b0;
   text-decoration: none;
 }
 
@@ -57,11 +57,11 @@ header {
 }
 
 .routes .router-link-active {
-  color: #b5b0b0;
+  color: white;
 }
 
 .routes a:hover {
-  color: #b5b0b0;
+  color: white;
 }
 
 .favourite-count {

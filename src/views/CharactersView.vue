@@ -11,6 +11,11 @@
     >
       <div class="filter-search">
         <Filter @clicked="onClickChild" />
+        <Search
+          @search="onSearchClick"
+          :text="searchText"
+          :setText="setSearchText"
+        />
       </div>
     </div>
     <div class="characters">
@@ -49,6 +54,7 @@ import { watchEffect } from 'vue'
 import CharacterCard from '@/components/CharacterCard.vue'
 import CharacterService from '@/services/CharacterService'
 import Filter from '@/components/Filter.vue'
+import Search from '@/components/Search.vue'
 
 export default {
   name: 'CharactersView',
@@ -56,6 +62,7 @@ export default {
   components: {
     CharacterCard,
     Filter,
+    Search,
   },
   data() {
     return {
@@ -63,23 +70,42 @@ export default {
       next: null,
       totalPages: null,
       activeFilter: '',
+      searchText: '',
     }
   },
   created() {
     watchEffect(() => {
       this.characters = null
-      CharacterService.getCharacters(this.page, this.activeFilter).then(
-        (response) => {
-          this.characters = response.data.results
-          this.next = response.data.info.next
-          this.totalPages = response.data.info.pages
-        }
-      )
+      CharacterService.getCharacters(
+        this.page,
+        this.activeFilter,
+        this.searchText
+      ).then((response) => {
+        this.characters = response.data.results
+        this.next = response.data.info.next
+        this.totalPages = response.data.info.pages
+      })
     })
   },
   methods: {
     onClickChild(val) {
       this.activeFilter = val
+    },
+    setSearchText(val) {
+      this.searchText = val
+    },
+    onSearchClick() {
+      this.characters = null
+      CharacterService.getCharacters(
+        this.page,
+        this.activeFilter,
+        this.searchText
+      ).then((response) => {
+        this.characters = response.data.results
+        this.next = response.data.info.next
+        this.totalPages = response.data.info.pages
+      })
+      this.setSearchText('')
     },
   },
 }
