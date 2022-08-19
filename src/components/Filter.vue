@@ -39,6 +39,7 @@ export default {
   methods: {
     setFilter(text) {
       this.activeFilter = text
+      this.$emit('clicked', this.activeFilter)
     },
   },
 }
@@ -52,7 +53,6 @@ export default {
   border-radius: 10px;
   font-weight: 600;
   width: 300px;
-  margin-left: 130px;
 }
 
 .filter {

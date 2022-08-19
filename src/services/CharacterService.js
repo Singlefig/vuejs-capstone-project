@@ -10,8 +10,17 @@ const apiClient = axios.create({
 })
 
 export default {
-  getCharacters(page) {
-    return apiClient.get(`/character?page=${page}`)
+  getCharacters(page, filter) {
+    let queryParamsStr = ''
+    if (page) {
+      queryParamsStr += `page=${page}`
+    }
+
+    if (filter) {
+      queryParamsStr += filter === 'All' ? '' : '&species=' + filter
+    }
+
+    return apiClient.get(`/character?page=${queryParamsStr}`)
   },
   getCharacter(id) {
     return apiClient.get('/character/' + id)

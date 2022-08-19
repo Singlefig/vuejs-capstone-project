@@ -1,5 +1,18 @@
 <template>
   <div class="container">
+    <div
+      v-if="
+        !(
+          $route.path.includes('favourites') ||
+          $route.path.includes('character')
+        )
+      "
+      class="header-controls"
+    >
+      <div class="filter-search">
+        <Filter @clicked="onClickChild" />
+      </div>
+    </div>
     <div class="characters">
       <CharacterCard
         v-for="character in characters"
@@ -18,12 +31,12 @@
 
       <router-link
         :to="
-          next !== null
+          page !== totalPages
             ? { name: 'characters', query: { page: page + 1 } }
             : { name: 'characters', query: { page: page } }
         "
         rel="next"
-        :class="next !== null ? 'next' : 'next disabled'"
+        :class="page !== totalPages ? 'next' : 'next disabled'"
         >Next &#62; &#62;</router-link
       >
     </div>
@@ -35,29 +48,39 @@
 import { watchEffect } from 'vue'
 import CharacterCard from '@/components/CharacterCard.vue'
 import CharacterService from '@/services/CharacterService'
+import Filter from '@/components/Filter.vue'
 
 export default {
   name: 'CharactersView',
   props: ['page'],
   components: {
     CharacterCard,
+    Filter,
   },
   data() {
     return {
       characters: null,
       next: null,
       totalPages: null,
+      activeFilter: '',
     }
   },
   created() {
     watchEffect(() => {
       this.characters = null
-      CharacterService.getCharacters(this.page).then((response) => {
-        this.characters = response.data.results
-        this.next = response.data.info.next
-        this.totalPages = response.data.info.pages
-      })
+      CharacterService.getCharacters(this.page, this.activeFilter).then(
+        (response) => {
+          this.characters = response.data.results
+          this.next = response.data.info.next
+          this.totalPages = response.data.info.pages
+        }
+      )
     })
+  },
+  methods: {
+    onClickChild(val) {
+      this.activeFilter = val
+    },
   },
 }
 </script>
@@ -65,6 +88,10 @@ export default {
 <style scoped>
 .container {
   padding-bottom: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .characters {
@@ -85,7 +112,7 @@ export default {
 }
 
 .pagination {
-  width: 100%;
+  width: 1660px;
   display: flex;
   justify-content: flex-end;
 }
@@ -107,5 +134,19 @@ export default {
 .disabled {
   color: #b5b0b0;
   cursor: not-allowed;
+}
+
+.header-controls {
+  background-color: #e7e1e1;
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.filter-search {
+  width: 1660px;
+  display: flex;
+  align-items: center;
 }
 </style>
