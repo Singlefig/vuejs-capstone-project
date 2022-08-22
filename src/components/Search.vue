@@ -5,7 +5,7 @@
       :value="text"
       @input="(event) => setText(event.target.value)"
     />
-    <button @click="$emit('search')">Search</button>
+    <button @click="$emit('search', text)">Search</button>
   </div>
 </template>
 
@@ -13,7 +13,16 @@
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'search',
-  props: ['text', 'setText'],
+  data() {
+    return {
+      text: '',
+    }
+  },
+  methods: {
+    setText(val) {
+      this.text = val
+    },
+  },
 }
 </script>
 

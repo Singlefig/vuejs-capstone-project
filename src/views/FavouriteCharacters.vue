@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .container {
-  padding-bottom: 20px;
+  padding: 20px 0;
   width: 1660px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;

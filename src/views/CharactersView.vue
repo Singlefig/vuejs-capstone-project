@@ -11,11 +11,7 @@
     >
       <div class="filter-search">
         <Filter @clicked="onClickChild" />
-        <Search
-          @search="onSearchClick"
-          :text="searchText"
-          :setText="setSearchText"
-        />
+        <Search @search="onSearchClick" />
       </div>
     </div>
     <div class="characters">
@@ -91,21 +87,8 @@ export default {
     onClickChild(val) {
       this.activeFilter = val
     },
-    setSearchText(val) {
-      this.searchText = val
-    },
-    onSearchClick() {
-      this.characters = null
-      CharacterService.getCharacters(
-        this.page,
-        this.activeFilter,
-        this.searchText
-      ).then((response) => {
-        this.characters = response.data.results
-        this.next = response.data.info.next
-        this.totalPages = response.data.info.pages
-      })
-      this.setSearchText('')
+    onSearchClick(text) {
+      this.searchText = text
     },
   },
 }
