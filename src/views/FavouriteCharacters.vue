@@ -39,6 +39,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
+  row-gap: 20px;
   align-items: center;
 }
 </style>
